@@ -1,16 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { IoIosAdd } from "react-icons/io";
 
 export default function AddProductVariantsForm(){
+    const [variantNumber, setVariantNumber] = useState(2);
+    const [variants, setVariants] = useState(() => {
+        const savedVariants = localStorage.getItem("variants");
+        return savedVariants ? JSON.parse(savedVariants) : [];
+    });
+
+    const handleProductVariant = (e, index) => {
+        const variantName = e.target.value;
+
+        setVariants((prevVariants) => {
+            const updatedVariants = [...prevVariants];
+
+            if (!updatedVariants[index]) {
+                updatedVariants[index] = { [variantName]: [] };
+            } else {
+                const oldKey = Object.keys(updatedVariants[index])[0];
+                updatedVariants[index] = { [variantName]: updatedVariants[index][oldKey] || [] };
+            }
+
+            localStorage.setItem("variants", JSON.stringify(updatedVariants));
+
+            return updatedVariants;
+        });
+    };
+
+    // update local storage when variants change
+    useEffect(() => {
+        localStorage.setItem("variants", JSON.stringify(variants));
+    }, [variants]);
     return(
       <div className="mt-10 shadow-md shadow-gray-300 pb-2 px-5 rounded-lg ">
 <h1 className="font-bold text-2xl">Product Variants</h1>
 <div>
-<div className=" flex  space-x-2 my-4">
+    {Array.from({length:variantNumber},(_,index)=>(
+
+        <div className=" flex  space-x-2 my-4" key={index}>
     <div className="flex flex-col w-full">
         <label className="text-gray-500 ">Variant Name</label>
-        <input type="text" className=" outline-none border border-slate-400 rounded-md h-10 px-2 w-full" />
+        <input type="text" placeholder="e.g Color" className=" outline-none border border-slate-400 rounded-md h-10 px-2 w-full"  onChange={(e)=>handleProductVariant(e,index)}/>
     </div>
     <div className="flex flex-col w-full">
         <label className="text-gray-500 ">Status</label>
@@ -74,7 +105,7 @@ export default function AddProductVariantsForm(){
         <button className="text-white bg-black  rounded h-10 w-full" >Remove</button>
      </div>
 </div>
-
+ ))}
 <button className="text-white bg-black  px-4 py-2 rounded-lg  ">Add Variant</button>
 </div>
 
