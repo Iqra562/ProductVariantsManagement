@@ -63,21 +63,27 @@ export default function AddProductVariantsForm() {
       return updatedVariants;
     });
   };
-  const handleRemoveVariantValue = (variantIndex, valueToRemove) => {
+  const handleRemoveVariantValue = (variantIndex,variantValueIndex, valueToRemove) => {
     setVariants((prevVariants) => {  
       const updatedVariants = [...prevVariants];
       updatedVariants[variantIndex] = {
         ...updatedVariants[variantIndex],
         values: updatedVariants[variantIndex].values.filter(
-          (value) => value !== valueToRemove
+          (value,index) => index !== variantValueIndex
         ),
       };
   
-      localStorage.setItem("variants", JSON.stringify(updatedVariants));
+      return updatedVariants;
+    });
+  };
+  const handleRemoveProductVariant = (index) => {
+    setVariants((prevVariants) => {
+      const updatedVariants = prevVariants.filter((_, i) => i !== index); // remove the variant of index  when user  click on btn which has this  index
       return updatedVariants;
     });
   };
   
+
   // update local storage when variants change
   useEffect(() => {
     localStorage.setItem("variants", JSON.stringify(variants));
@@ -120,7 +126,7 @@ export default function AddProductVariantsForm() {
                         className="flex justify-around p-2 bg-gray-200 rounded-full"
                       >
                         <p className="text-sm">{eachVariantValues}</p>
-                        <button className="text-red-700" onClick={()=>handleRemoveVariantValue(index,eachVariantValues)}>
+                        <button className="text-red-700" onClick={()=>handleRemoveVariantValue(index,variantValueIndex,eachVariantValues)}>
                           <RxCross2 className="text-sm" />
                         </button>
                       </div>
@@ -147,7 +153,7 @@ export default function AddProductVariantsForm() {
               </div>
             </div>
             <div className="flex  w-4/12 mt-6">
-              <button className="text-white bg-black  rounded h-10 w-full">
+              <button className="text-white bg-black  rounded h-10 w-full" onClick={()=>handleRemoveProductVariant(index)}>
                 Remove
               </button>
             </div>
