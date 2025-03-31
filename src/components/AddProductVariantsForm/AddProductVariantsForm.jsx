@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { IoIosAdd } from "react-icons/io";
+import { useContext } from "react";
+import ProductVariantContext from "../../context/ProductContextProvider";
 
 export default function AddProductVariantsForm() {
   const [variantValue, setVariantValue] = useState("");
   const [variantValues, setVariantValues] = useState({});
-  const [variants, setVariants] = useState(() => {
-    const savedVariants = localStorage.getItem("variants");
-    return savedVariants
-      ? JSON.parse(savedVariants)
-      : [{ variantsName: "", values: [] }];
-  });
+  const {variantsContext,setVariantsContext} =useContext(ProductVariantContext);
+  // console.log(variantsContext)
+   
   const handleProductVariant = (e, index) => {
     const variantName = e.target.value;
 
-    setVariants((prevVariants) => {
+    setVariantsContext((prevVariants) => {
       const updatedVariants = [...prevVariants];
 
       if (!updatedVariants[index]) {
@@ -33,7 +32,7 @@ export default function AddProductVariantsForm() {
   const handleVariantValues = (index) => {
     if (!variantValue[index]) return;
 
-    setVariants((prevVariants) => {
+    setVariantsContext((prevVariants) => {
       const updatedVariants = [...prevVariants];
 
       updatedVariants[index] = {
@@ -51,20 +50,8 @@ export default function AddProductVariantsForm() {
       [index]: "", // reset input field
     }));
   };
-
-  const addVariantForm = () => {
-    setVariants((prevVariants) => {
-      const updatedVariants = [
-        ...prevVariants,
-        { variantsName: "", values: [] },
-      ];
-
-
-      return updatedVariants;
-    });
-  };
   const handleRemoveVariantValue = (variantIndex,variantValueIndex, valueToRemove) => {
-    setVariants((prevVariants) => {  
+    setVariantsContext((prevVariants) => {  
       const updatedVariants = [...prevVariants];
       updatedVariants[variantIndex] = {
         ...updatedVariants[variantIndex],
@@ -77,22 +64,29 @@ export default function AddProductVariantsForm() {
     });
   };
   const handleRemoveProductVariant = (index) => {
-    setVariants((prevVariants) => {
-      const updatedVariants = prevVariants.filter((_, i) => i !== index); // remove the variant of index  when user  click on btn which has this  index
+    setVariantsContext((prevVariants) => {
+      const updatedVariants = prevVariants.filter((_, i) => i !== index); // remove the variant   when user  click on its delete btn
+      return updatedVariants;
+    });
+  };
+  const addVariantForm = () => {
+    setVariantsContext((prevVariants) => {
+      const updatedVariants = [
+        ...prevVariants,
+        { variantsName: "", values: [] },
+      ];
+
+
       return updatedVariants;
     });
   };
   
 
-  // update local storage when variants change
-  useEffect(() => {
-    localStorage.setItem("variants", JSON.stringify(variants));
-  }, [variants]);
   return (
     <div className="mt-10 shadow-md shadow-gray-300 pb-2 px-5 rounded-lg ">
       <h1 className="font-bold text-2xl">Product Variants</h1>
       <div>
-        {variants.map((variant, index) => (
+        {variantsContext.map((variant, index) => (
           <div className=" flex  space-x-2 my-4" key={index}>
             <div className="flex flex-col w-full">
               <label className="text-gray-500 ">Variant Name</label>
