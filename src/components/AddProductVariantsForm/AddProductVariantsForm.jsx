@@ -63,7 +63,21 @@ export default function AddProductVariantsForm() {
       return updatedVariants;
     });
   };
-
+  const handleRemoveVariantValue = (variantIndex, valueToRemove) => {
+    setVariants((prevVariants) => {  
+      const updatedVariants = [...prevVariants];
+      updatedVariants[variantIndex] = {
+        ...updatedVariants[variantIndex],
+        values: updatedVariants[variantIndex].values.filter(
+          (value) => value !== valueToRemove
+        ),
+      };
+  
+      localStorage.setItem("variants", JSON.stringify(updatedVariants));
+      return updatedVariants;
+    });
+  };
+  
   // update local storage when variants change
   useEffect(() => {
     localStorage.setItem("variants", JSON.stringify(variants));
@@ -100,13 +114,13 @@ export default function AddProductVariantsForm() {
               <div className="flex items-start space-x-2">
                 {variant.values.length > 0 && (
                   <div className="flex flex-wrap  gap-1 w-full ">
-                    {variant.values.map((eachVariantValues, index) => (
+                    {variant.values.map((eachVariantValues, variantValueIndex) => (
                       <div
-                        key={index}
+                        key={variantValueIndex}
                         className="flex justify-around p-2 bg-gray-200 rounded-full"
                       >
                         <p className="text-sm">{eachVariantValues}</p>
-                        <button className="text-red-700">
+                        <button className="text-red-700" onClick={()=>handleRemoveVariantValue(index,eachVariantValues)}>
                           <RxCross2 className="text-sm" />
                         </button>
                       </div>
