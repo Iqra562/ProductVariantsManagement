@@ -26,7 +26,6 @@ export default function AddProductVariantsForm() {
         };
       }
 
-      // localStorage.setItem("variants", JSON.stringify(updatedVariants));
 
       return updatedVariants;
     });
@@ -39,7 +38,7 @@ export default function AddProductVariantsForm() {
 
       updatedVariants[index] = {
         ...updatedVariants[index],
-        values: [...updatedVariants[index].values, variantValue[index]], // Use the correct value
+        values: [...updatedVariants[index].values, variantValue[index]], // Use the correct value to add value for specific variant
       };
 
       localStorage.setItem("variants", JSON.stringify(updatedVariants));
@@ -60,7 +59,6 @@ export default function AddProductVariantsForm() {
         { variantsName: "", values: [] },
       ];
 
-      // localStorage.setItem("variants", JSON.stringify(updatedVariants));
 
       return updatedVariants;
     });
