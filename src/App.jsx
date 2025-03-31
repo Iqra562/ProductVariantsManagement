@@ -1,16 +1,20 @@
-import AddProductVariantsForm from "./components/AddProductVariantsForm/AddProductVariantsForm";
-import FetchProductVariant from "./components/FetchProductVariant/FetchProductVariant";
+import AddProductVariantsForm from "./components/AddProductVariantsForm";
+import  CreateVariantCombination from './components/CreateVariantCombination'
 import { ProductContextProvider } from "./context/productContextProvider";
+import { VariantsCombinationContextProvider } from "./context/VariantsCombinationContextProvider";
 export default function App() {
   return (
    <>
    <ProductContextProvider>
+    <VariantsCombinationContextProvider>
 
  <div className="max-w-5xl mx-auto">
 
    <AddProductVariantsForm/>
-   <FetchProductVariant/>
+   <CreateVariantCombination/>
+
  </div>
+    </VariantsCombinationContextProvider>
    </ProductContextProvider>
 
     </>
