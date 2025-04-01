@@ -13,15 +13,18 @@ function ProductVariantsCombination(){
     useEffect(()=>{
         const combination =  getAllValues.length >0 &&   getAllValues.reduce((a, b) =>  a.reduce((r, v) => r.concat(b.map(w => [].concat(v, w))), []))  ;
         setVariantCombination(combination)
-        console.log(variantCombination)
+        // console.log(variantCombination)
     // localStorage.setItem("combination", JSON.stringify(combination));
         
 // console.log(getAllValues)
     },[variantsCombination])
-    const handleRemoveCombination = (index) => {
-        console.log(variantCombination);
+
+    // function to remove variant combination
+    const handleRemoveCombinationArray = (index) => {
+        // console.log(variantCombination);
         setVariantCombination((prevValues) => {
-          const updatedValues = prevValues.filter((_, indx) => indx !== index);  // Use filter correctly
+            // console.log(prevValues)
+          const updatedValues = prevValues.filter((_, indx) => indx !== index);  
           return updatedValues;
         });
       };
@@ -39,7 +42,7 @@ function ProductVariantsCombination(){
           ))}
             
         </div>
-        <button className='bg-red-600 text-white px-2 py-1 rounded text-sm' onClick={()=>handleRemoveCombination(index) } >Remove</button>
+        <button className='bg-red-600 text-white px-2 py-1 rounded text-sm' onClick={()=>handleRemoveCombinationArray(index) } >Remove</button>
       </div>
     )
  
