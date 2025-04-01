@@ -26,10 +26,35 @@ export default function CreateVariantCombination(){
           }
         });
       };
+      // filter data to get checked product variants values
+      const filterDataFromVariantsContext = variantsContext.filter(productVariants => variantsCombination.find( value => value.variantName === productVariants.variantsName));
+      const handleChangeVariantValues = (event, variantNameToUpdate) => {
+        const selectedValue = event.target.value;
+        
+        const valueToAdd = selectedValue[0];
       
-      const handleChange = (event) => {
-        setSelectedValues(event.target.value);
+        if (!valueToAdd) return;
+      
+        console.log(valueToAdd, "c"); 
+      
+        setVariantsCombination((prevValues) => {
+          const updatedValues = [...prevValues];
+      
+          const getObject = updatedValues.find(value => value.variantName === variantNameToUpdate);
+      
+          if (getObject) {
+            if (!getObject.values.includes(valueToAdd)) {
+              getObject.values = [...getObject.values, valueToAdd];
+            } else {
+              console.log("Value already exists");  
+            }
+          }
+      
+          return updatedValues;
+        });
       };
+      
+      
     return(
 <>
 <div className="mt-10  pb-2 px-5 rounded-lg ">
@@ -48,30 +73,41 @@ export default function CreateVariantCombination(){
       }
     </div>
 
-    <div>
-        <div className='flex flex-col'>
-            <label className='text-gray-500 ' >Color</label>
+    <div className='space-y-5'>
+      { filterDataFromVariantsContext.map((variants,index)=>(
+
+      
+        <div key={index} className='flex flex-col'>
+            <label className='text-gray-500 ' > {variants.variantsName}</label>
     <Select
         multiple
-        value={selectedValues}
-        onChange={handleChange}
-        renderValue={(selected) => (
+        // value={variantsCombination.find(v => v.variantName === variants.variantsName)?.values || []}
+        value={[]}
+        onChange={(event)=>handleChangeVariantValues(event,variants.variantsName)}
+        renderValue={() => (
           <div>
-            {selected.map((value) => (
-                
-              <Chip key={value} label={value} style={{ margin: 2 }} />
-                
-            ))}
+        {variantsCombination
+  .filter(variant => variant.variantName === variants.variantsName) // Filter to get the matching variant
+  .map((variant, index) => {
+    // console.log(variant); // Check the structure of variant object
+    return variant.values.map((value, idx) => (
+      <Chip key={idx} label={value} style={{ margin: 2 }} />
+    ));
+  })}
+
+
           </div>
         )}
       >
-        {options.map((option) => (
-          <MenuItem key={option} value={option}>
+        {variants.values.map((option) => (
+          <MenuItem key={option} value={option} onClick={(event)=>handleChangeVariantValues(event,variants.variantsName)}>
             {option}
           </MenuItem>
         ))}
       </Select>
       </div>
+      ))
+}
       </div>
 </div>
 </>
