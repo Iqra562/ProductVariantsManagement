@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import VariantsCombinationContext from '../../context/VariantsCombinationContextProvider';
 import ProductVariantContext from '../../context/ProductContextProvider';
 import { Select, MenuItem, InputLabel, FormControl, Chip } from "@mui/material";
@@ -7,7 +7,7 @@ export default function CreateVariantCombination(){
       const {variantsCombination, setVariantsCombination} =useContext(VariantsCombinationContext); 
       const [selectedValues, setSelectedValues] = useState([]);
 
-    
+     const [filterDataFromVariantsContext,setFilterDataFromVariantsContext] =useState([])
       const handleShowSelectedVariantValues = (checkedVariantName) => {
         console.log(checkedVariantName)
         setVariantsCombination((prevValues) => {
@@ -25,8 +25,12 @@ export default function CreateVariantCombination(){
           }
         });
       };
-      // filter data to get checked product variants values
-      const filterDataFromVariantsContext = variantsContext.filter(productVariants => variantsCombination.find( value => value.variantName === productVariants.variantsName));
+      // filter data to get checked product variants valuesy
+      useEffect(()=>{
+        setFilterDataFromVariantsContext(variantsContext.filter(productVariants => variantsCombination.find( value => value.variantName === productVariants.variantsName)));
+
+      },[variantsContext,variantsCombination])
+
       const handleChangeVariantValues = (event, variantNameToUpdate) => {
         const selectedValue = event.target.value;
         

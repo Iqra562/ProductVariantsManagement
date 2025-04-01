@@ -18,11 +18,19 @@ function ProductVariantsCombination(){
         
 // console.log(getAllValues)
     },[variantsCombination])
+    const handleRemoveCombination = (index) => {
+        console.log(variantCombination);
+        setVariantCombination((prevValues) => {
+          const updatedValues = prevValues.filter((_, indx) => indx !== index);  // Use filter correctly
+          return updatedValues;
+        });
+      };
+      
     return(<>
-    <div className='my-10 px-4'>
- { variantCombination && ( variantCombination.map((values)=>{
+    <div className='my-10 px-4 space-y-4'>
+ { variantCombination && ( variantCombination.map((values,index)=>{
      const convertedValues = Array.isArray(values) ? values : [values];
-    console.log(values,'v')
+    // console.log(values,'v')
     return (
         <div className='border border-gray-300 p-5 rounded-md flex justify-between'>
         <div className='flex space-x-4'>
@@ -31,7 +39,7 @@ function ProductVariantsCombination(){
           ))}
             
         </div>
-        <button className='bg-red-600 text-white px-2 py-1 rounded text-sm'>Remove</button>
+        <button className='bg-red-600 text-white px-2 py-1 rounded text-sm' onClick={()=>handleRemoveCombination(index) } >Remove</button>
       </div>
     )
  
