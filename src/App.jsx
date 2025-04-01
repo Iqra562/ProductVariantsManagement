@@ -1,5 +1,6 @@
 import AddProductVariantsForm from "./components/AddProductVariantsForm";
 import  CreateVariantCombination from './components/CreateVariantCombination'
+import ProductVariantsCombination from "./components/ProductVariantsCombination";
 import { ProductContextProvider } from "./context/productContextProvider";
 import { VariantsCombinationContextProvider } from "./context/VariantsCombinationContextProvider";
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
 
    <AddProductVariantsForm/>
    <CreateVariantCombination/>
+   <ProductVariantsCombination/>
 
  </div>
     </VariantsCombinationContextProvider>

@@ -7,7 +7,6 @@ export default function CreateVariantCombination(){
       const {variantsCombination, setVariantsCombination} =useContext(VariantsCombinationContext); 
       const [selectedValues, setSelectedValues] = useState([]);
 
-      const options = ["Red", "Green", "Yellow", "Blue", "Black"]; // Example values
     
       const handleShowSelectedVariantValues = (checkedVariantName) => {
         console.log(checkedVariantName)
@@ -35,7 +34,7 @@ export default function CreateVariantCombination(){
       
         if (!valueToAdd) return;
       
-        console.log(selectedValue, "c"); 
+        // console.log(selectedValue, "c"); 
       
         setVariantsCombination((prevValues) => {
           const updatedValues = [...prevValues];
