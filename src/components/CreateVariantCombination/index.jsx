@@ -41,15 +41,9 @@ export default function CreateVariantCombination(){
           const updatedValues = [...prevValues];
       
           const getObject = updatedValues.find(value => value.variantName === variantNameToUpdate);
+          getObject.values = selectedValue;
       
-          if (getObject) {
-            if (!getObject.values.includes(valueToAdd)) {
-              // getObject.values = [...getObject.values, valueToAdd];
-            } else {
-              getObject.values = selectedValue;
-              // console.log("Value already exists");  
-            }
-          }
+          
       
           return updatedValues;
         });
