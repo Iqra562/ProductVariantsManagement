@@ -35,7 +35,7 @@ export default function CreateVariantCombination(){
       
         if (!valueToAdd) return;
       
-        console.log(valueToAdd, "c"); 
+        console.log(selectedValue, "c"); 
       
         setVariantsCombination((prevValues) => {
           const updatedValues = [...prevValues];
@@ -44,9 +44,10 @@ export default function CreateVariantCombination(){
       
           if (getObject) {
             if (!getObject.values.includes(valueToAdd)) {
-              getObject.values = [...getObject.values, valueToAdd];
+              // getObject.values = [...getObject.values, valueToAdd];
             } else {
-              console.log("Value already exists");  
+              getObject.values = selectedValue;
+              // console.log("Value already exists");  
             }
           }
       
@@ -81,8 +82,8 @@ export default function CreateVariantCombination(){
             <label className='text-gray-500 ' > {variants.variantsName}</label>
     <Select
         multiple
-        // value={variantsCombination.find(v => v.variantName === variants.variantsName)?.values || []}
-        value={[]}
+        value={variantsCombination.find(v => v.variantName === variants.variantsName)?.values || []}
+        // value={['h','i']}
         onChange={(event)=>handleChangeVariantValues(event,variants.variantsName)}
         renderValue={() => (
           <div>
@@ -100,7 +101,7 @@ export default function CreateVariantCombination(){
         )}
       >
         {variants.values.map((option) => (
-          <MenuItem key={option} value={option} onClick={(event)=>handleChangeVariantValues(event,variants.variantsName)}>
+          <MenuItem key={option} value={option} onClick={(event)=>handleChangeVariantValues(event,option)}>
             {option}
           </MenuItem>
         ))}
